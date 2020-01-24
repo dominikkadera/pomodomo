@@ -1,5 +1,6 @@
 #include "config.h"
 #include <FastLED.h>
+#include <WiFi.h>
 
 class Pomodomo {
   private:
@@ -28,7 +29,8 @@ void setup() {
   // Serial.begin(115200);
   delay(STARTUP_SANITY_DELAY);
   FastLED.addLeds<WS2812, LED_PIN, COLOR_ORDER>(pomodomo->ledStrip, NUM_LEDS);
-  pinMode(LED_PIN, OUTPUT);
+  FastLED.setBrightness(LED_BRIGHTNESS);
+  setStripColor(pomodomo->ledStrip, CRGB::Lime);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 

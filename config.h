@@ -2,8 +2,9 @@
 #define SHORT_BREAK_MILLIS   300000    //  5 minutes =  5 * 60 * 1000
 #define LONG_BREAK_MILLIS    900000    // 15 minutes = 15 * 60 * 1000
 #define LONG_BREAK_AFTER     4
-#define LED_PIN              9
-#define BUTTON_PIN           2
+#define LED_PIN              27
+#define LED_BRIGHTNESS       10
+#define BUTTON_PIN           5
 #define BUTTON_DEBOUNCE_MS   50
 #define NUM_LEDS             16
 #define COLOR_ORDER          GRB
