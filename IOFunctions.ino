@@ -17,3 +17,16 @@ void setStripColor(CRGB * ledStrip, CRGB color) {
   FastLED.show();
   lastColor = color;
 }
+
+void setClock() {
+  configTime(0, 0, "pool.ntp.org", "time.nist.gov");
+
+  time_t nowSecs = time(nullptr);
+  while (nowSecs < 8 * 3600 * 2) {
+    delay(500);
+    yield();
+    nowSecs = time(nullptr);
+  }
+  struct tm timeinfo;
+  gmtime_r(&nowSecs, &timeinfo);
+}

@@ -27,6 +27,9 @@ void Pomodomo::onPressed() {
     // If the last period was Pomodoro, then ...
     if (pomodoro) {
 
+      // Notify
+      sendRequest(POMODORO_END_URL);
+
       // Increment blocksCount
       ++blocksCount;
 
@@ -47,7 +50,8 @@ void Pomodomo::onPressed() {
     }
     // Else the break has ended, so set the pomodoro limit to the counter
     else {
-
+      // Notify
+      sendRequest(POMODORO_START_URL);
       limit = millis() + POMODORO_MILLIS;
     }
 
