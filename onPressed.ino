@@ -11,10 +11,12 @@ void Pomodomo::onPressed() {
     if (pomodoro) {
       // If not paused, we're pausing now, so store the current millis
       if (!paused) {
+        sendRequest(POMODORO_PAUSE_START_URL);
         pauseStartMillis = millis();
       }
       // Else we're ending the pause now, so add the time span of the pause to the limit
       else {
+        sendRequest(POMODORO_PAUSE_END_URL);
         limit += (millis() - pauseStartMillis);
       }
       // Toggle pause
