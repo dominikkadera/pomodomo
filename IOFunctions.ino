@@ -30,3 +30,10 @@ void setClock() {
   struct tm timeinfo;
   gmtime_r(&nowSecs, &timeinfo);
 }
+
+time_t getClock() {
+  struct timeval tv;
+  struct timezone tz;
+  gettimeofday(&tv, &tz);
+  return tv.tv_sec;
+}

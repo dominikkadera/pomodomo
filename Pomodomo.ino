@@ -6,8 +6,9 @@
 
 // Declare here, so it can be used where needed
 void setStripColor(CRGB * ledStrip, CRGB color);
+time_t getClock();
 
-// Root CA
+// Root CA for HTTPS
 const char * root_ca = \
                        "-----BEGIN CERTIFICATE-----\n" \
                        "MIICiTCCAg+gAwIBAgIQH0evqmIAcFBUTAGem2OZKjAKBggqhkjOPQQDAzCBhTEL\n" \
@@ -40,11 +41,16 @@ class Pomodomo {
     unsigned long blinkLimit = 0;
     boolean blinkState = false;
     void sendRequest(const char * url) {
-      setStripColor(ledStrip, CRGB::Yellow);
+      setStripColor(ledStrip, COLOR_SENDING);
       if ((WiFi.status() == WL_CONNECTED)) {
         HTTPClient http;
-        http.begin(url, root_ca);
-        http.GET();
+        String u = String(url);
+        http.begin(u + (u.indexOf('?') == -1 ? "?" : "&") + "ts=" + getClock(), root_ca);
+        int code = http.GET();
+        if(code < 100 || code >= 400) {
+          setStripColor(ledStrip, COLOR_CONNECTION_FAILED);
+          delay(FAIL_NOTIFICATION_LENGTH);
+        }
         http.end();
       }
     }
@@ -63,7 +69,7 @@ void setup() {
   delay(STARTUP_SANITY_DELAY);
   FastLED.addLeds<WS2812, LED_PIN, COLOR_ORDER>(pomodomo->ledStrip, NUM_LEDS);
   FastLED.setBrightness(LED_BRIGHTNESS);
-  setStripColor(pomodomo->ledStrip, CRGB::Lime);
+  setStripColor(pomodomo->ledStrip, COLOR_CONNECTING);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   for (int i = 0; i < WIFI_CONNECTION_CHECKS; i++) {
@@ -73,7 +79,12 @@ void setup() {
       delay(WIFI_CHECK_DELAY);
     }
   }
-  setClock();
+  if (WiFi.status() == WL_CONNECTED) {
+    setClock();
+  } else {
+    setStripColor(pomodomo->ledStrip, COLOR_CONNECTION_FAILED);
+    delay(FAIL_NOTIFICATION_LENGTH);
+  }
 }
 
 void loop() {

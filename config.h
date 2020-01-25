@@ -14,5 +14,9 @@
 #define COLOR_POMODORO            CRGB::Blue
 #define COLOR_PAUSE               CRGB::Red
 #define COLOR_NONE                CRGB::Black
+#define COLOR_CONNECTING          CRGB::Lime
+#define COLOR_SENDING             CRGB::Yellow
+#define COLOR_CONNECTION_FAILED   CRGB::Purple
 #define WIFI_CONNECTION_CHECKS    40   // max 40 * 250 = 10000 ms = 10 seconds timeout
 #define WIFI_CHECK_DELAY          250  // .........^^^
+#define FAIL_NOTIFICATION_LENGTH  1000 // 1 second
