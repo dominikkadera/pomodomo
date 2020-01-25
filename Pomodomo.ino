@@ -66,12 +66,11 @@ void setup() {
   setStripColor(pomodomo->ledStrip, CRGB::Lime);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
-  // Connect to WiFi, max 40 * 250 = 10000 ms = 10 seconds timeout
-  for (int i = 0; i < 40; i++) {
+  for (int i = 0; i < WIFI_CONNECTION_CHECKS; i++) {
     if (WiFi.status() == WL_CONNECTED) {
       break;
     } else {
-      delay(250);
+      delay(WIFI_CHECK_DELAY);
     }
   }
   setClock();
